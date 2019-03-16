@@ -22,4 +22,4 @@ yarn-debug.log*
 yarn-error.log*
 
 #personal info
-personalInfo.md
+.personalInfo
