@@ -1,29 +1,77 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink as NavLinkRR } from 'react-router-dom';
 
 import * as ROUTES from '../../constants/routes';
 
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+} from 'reactstrap';
 
-const Navigation = () => (
-  <div>
-    <ul>
-      <li>
-        <Link to={ROUTES.SIGN_IN}>Sign In</Link>
-      </li>
-      <li>
-        <Link to={ROUTES.LANDING}>Landing</Link>
-      </li>
-      <li>
-        <Link to={ROUTES.HOME}>Home1</Link>
-      </li>
-      <li>
-        <Link to={ROUTES.ACCOUNT}>Account</Link>
-      </li>
-      <li>
-        <Link to={ROUTES.ADMIN}>Admin</Link>
-      </li>
-    </ul>
-  </div>
-);
+class Navigation extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.toggleNavbar = this.toggleNavbar.bind(this);
+    this.state = {
+      collapsed: true,
+    };
+  }
+
+  toggleNavbar() {
+    this.setState({
+      collapsed: !this.state.collapsed,
+    });
+  }
+  render() {
+    return (
+      <div>
+        <Navbar color="faded" light>
+          <NavbarBrand href="/" className="mr-auto">
+            Alas Kasih
+          </NavbarBrand>
+          <NavbarToggler
+            onClick={this.toggleNavbar}
+            className="mr-2"
+          />
+          <Collapse isOpen={!this.state.collapsed} navbar>
+            <Nav navbar>
+              <NavItem>
+                <NavLink tag={NavLinkRR} to={ROUTES.SIGN_IN}>
+                  Sign in
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={NavLinkRR} to={ROUTES.LANDING}>
+                  Landing Page
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={NavLinkRR} to={ROUTES.HOME}>
+                  Home
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={NavLinkRR} to={ROUTES.ACCOUNT}>
+                  Account
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={NavLinkRR} to={ROUTES.ADMIN}>
+                  Admin
+                </NavLink>
+              </NavItem>
+            </Nav>
+          </Collapse>
+        </Navbar>
+      </div>
+    );
+  }
+}
 
 export default Navigation;

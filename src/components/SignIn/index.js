@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
+import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 import { SignUpLink } from '../SignUp';
 import * as ROUTES from '../../constants/routes';
@@ -8,7 +9,7 @@ import { withFirebase } from '../Firebase';
 
 const SignInPage = () => (
   <div>
-    <h1>SignIn</h1>
+    
     <SignInForm />
     <SignUpLink />
   </div>
@@ -52,27 +53,38 @@ class SignInFormBase extends Component {
     const isInvalid = password === '' || email === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          name="email"
-          value={email}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Email Address"
-        />
-        <input
-          name="password"
-          value={password}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Password"
-        />
-        <button disabled={isInvalid} type="submit">
+      <Form onSubmit={this.onSubmit} style={{ marginLeft: "2rem"}} >
+        <h1>Sign-in</h1>
+        <FormGroup>
+          <Label for="email" >Email</Label>
+          <Col sm={10}>
+          <Input
+            name="email"
+            value={email}
+            onChange={this.onChange}
+            type="text"
+            placeholder="Email Address"
+          />
+          </Col>
+        </FormGroup>
+        <FormGroup>
+          <Label for="password">Password</Label>
+          <Col sm={10}>
+          <Input
+            name="password"
+            value={password}
+            onChange={this.onChange}
+            type="password"
+            placeholder="Password"
+          /></Col>
+        </FormGroup>
+
+        <Button disabled={isInvalid} type="submit">
           Sign In
-        </button>
+        </Button>
 
         {error && <p>{error.message}</p>}
-      </form>
+      </Form>
     );
   }
 }
