@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink as NavLinkRR } from 'react-router-dom';
 
 import * as ROUTES from '../../constants/routes';
+import SignOutButton from '../SignOut';
 
 import {
   Collapse,
@@ -65,6 +66,9 @@ class Navigation extends React.Component {
                 <NavLink tag={NavLinkRR} to={ROUTES.ADMIN}>
                   Admin
                 </NavLink>
+              </NavItem>
+              <NavItem>
+                <SignOutButton />
               </NavItem>
             </Nav>
           </Collapse>
