@@ -14,7 +14,65 @@ import {
   NavLink,
 } from 'reactstrap';
 
-class Navigation extends React.Component {
+const Navigation = ({ authUser }) => (
+  <div>{authUser ? <NavigationAuth /> : <NavigationNonAuth />}</div>
+);
+
+class NavigationAuth extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.toggleNavbar = this.toggleNavbar.bind(this);
+    this.state = {
+      collapsed: true,
+    };
+  }
+
+  toggleNavbar() {
+    this.setState({
+      collapsed: !this.state.collapsed,
+    });
+  }
+  render() {
+    return (
+      <div>
+        <Navbar color="faded" light>
+          <NavbarBrand href="/" className="mr-auto">
+            Alas Kasih
+          </NavbarBrand>
+          <NavbarToggler
+            onClick={this.toggleNavbar}
+            className="mr-2"
+          />
+          <Collapse isOpen={!this.state.collapsed} navbar>
+            <Nav navbar>
+              <NavItem>
+                <NavLink tag={NavLinkRR} to={ROUTES.LANDING}>
+                  Landing Page
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={NavLinkRR} to={ROUTES.HOME}>
+                  Home
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={NavLinkRR} to={ROUTES.ACCOUNT}>
+                  Account
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <SignOutButton />
+              </NavItem>
+            </Nav>
+          </Collapse>
+        </Navbar>
+      </div>
+    );
+  }
+};
+
+class NavigationNonAuth extends React.Component {
   constructor(props) {
     super(props);
 
@@ -52,30 +110,12 @@ class Navigation extends React.Component {
                   Landing Page
                 </NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink tag={NavLinkRR} to={ROUTES.HOME}>
-                  Home
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={NavLinkRR} to={ROUTES.ACCOUNT}>
-                  Account
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={NavLinkRR} to={ROUTES.ADMIN}>
-                  Admin
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <SignOutButton />
-              </NavItem>
             </Nav>
           </Collapse>
         </Navbar>
       </div>
     );
   }
-}
+};
 
 export default Navigation;
