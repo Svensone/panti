@@ -2,7 +2,7 @@ import React from 'react';
 import { withFirebase } from '../Firebase';
 import { Button } from 'reactstrap';
 
-const SignOutButton = (firebase) => (
+const SignOutButton = ({ firebase }) => (
   <Button 
     outline 
     color='primary' 
