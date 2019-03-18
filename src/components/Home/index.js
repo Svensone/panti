@@ -1,6 +1,9 @@
 import React from 'react';
-import Background from './../../assets/img/bg-home.jpg';
 
+import { withAuthorization } from '../Session';
+
+// styles
+import Background from './../../assets/img/bg-home.jpg';
 var style = {
   marginTop: "5rem",
   marginLeft: "10rem",
@@ -12,10 +15,12 @@ var style = {
 const Home = () => (
   <div>
     <h1>Home</h1>
+    <p> Only accessible for signed in Users </p>
   <div style={ style } ></div>
 
   </div>
 );
 
-export default Home;
-//   <img src={Background} alt='' />
+const condition = authUser => !!authUser;
+
+export default withAuthorization(condition)(Home);
