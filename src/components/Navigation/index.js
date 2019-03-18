@@ -1,9 +1,12 @@
 import React from 'react';
 import { NavLink as NavLinkRR } from 'react-router-dom';
 
+// context & components
 import * as ROUTES from '../../constants/routes';
 import SignOutButton from '../SignOut';
+import { AuthUserContext } from '../Session';
 
+// styling with reactstrap
 import {
   Collapse,
   Navbar,
@@ -14,8 +17,14 @@ import {
   NavLink,
 } from 'reactstrap';
 
-const Navigation = ({ authUser }) => (
-  <div>{authUser ? <NavigationAuth /> : <NavigationNonAuth />}</div>
+const Navigation = () => (
+  <div>
+    <AuthUserContext.Consumer>
+      {authUser =>
+        authUser ? <NavigationAuth /> : <NavigationNonAuth />
+      }
+    </AuthUserContext.Consumer>
+  </div>
 );
 
 class NavigationAuth extends React.Component {
@@ -70,7 +79,7 @@ class NavigationAuth extends React.Component {
       </div>
     );
   }
-};
+}
 
 class NavigationNonAuth extends React.Component {
   constructor(props) {
@@ -116,6 +125,6 @@ class NavigationNonAuth extends React.Component {
       </div>
     );
   }
-};
+}
 
 export default Navigation;

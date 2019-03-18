@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
+
+// style
 import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import Background from '../../assets/img/02.jpeg';
 
 import { SignUpLink } from '../SignUp';
 import * as ROUTES from '../../constants/routes';
 import { withFirebase } from '../Firebase';
+import { AuthUserContext } from '../Session';
+import { PasswordForgetLink } from '../PasswordForget';
 
 const SignInPage = () => (
   <div>
     <SignInForm />
+    <PasswordForgetLink />
     <SignUpLink />
   </div>
 );
@@ -50,8 +56,17 @@ class SignInFormBase extends Component {
     const { password, email, error } = this.state;
 
     const isInvalid = password === '' || email === '';
-
+    var styles = {
+      margin: "5rem",
+      backgroundImage: `url(${Background})`,
+      height: "400px",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "cover"
+    }
     return (
+      <div>
+    
       <Form onSubmit={this.onSubmit} style={{ marginLeft: "2rem"}} >
         <h1>Sign-in</h1>
         <FormGroup>
@@ -84,6 +99,9 @@ class SignInFormBase extends Component {
 
         {error && <p>{error.message}</p>}
       </Form>
+      <div style={ styles }></div>
+          
+      </div>
     );
   }
 }

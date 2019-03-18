@@ -2,11 +2,13 @@ import React from 'react';
 import Background from './../../assets/img/bg-home.jpg';
 
 var style = {
-  width: "100%",
+  marginTop: "5rem",
+  marginLeft: "10rem",
+  width: "50%",
   height: "300px",
-  background: `url(${Background})`,
-  
+  background: `url(${Background})`, 
 }
+
 const Home = () => (
   <div>
     <h1>Home</h1>
