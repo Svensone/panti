@@ -6,12 +6,7 @@ import 'firebase/database';
 // optional with firebase Project panti-prod - config in new env.production - see tutorial)
 
 const config = {
-  apiKey: process.env,
-  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-  databaseURL: process.env.REACT_APP_DATABASE_URL,
-  projectId: process.env.REACT_APP_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID
+  apiKey: 
 };
 
 class Firebase {
@@ -37,11 +32,11 @@ class Firebase {
   doPasswordUpdate = password =>
     this.auth.currentUser.updatePassword(password);
 
-    //* Database API  */
+  //* Database API  */
 
-    user = uid => this.db.ref(`users/${uid}`);
+  user = uid => this.db.ref(`users/${uid}`);
 
-    users = () => this.db.red('users');
+  users = () => this.db.ref('users');
 }
 
 export default Firebase;

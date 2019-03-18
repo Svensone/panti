@@ -69,6 +69,11 @@ class NavigationAuth extends React.Component {
                 <NavLink tag={NavLinkRR} to={ROUTES.ACCOUNT}>
                   Account
                 </NavLink>
+                </NavItem>
+                <NavItem>
+                <NavLink tag={NavLinkRR} to={ROUTES.ADMIN}>
+                  Admin
+                </NavLink>
               </NavItem>
               <NavItem>
                 <SignOutButton />

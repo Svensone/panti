@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withFirebase } from '../Firebase';
 
 // style
-import { Button, Form, FormGroup, Input, Col } from 'reactstrap';
+import { Button, Form, FormGroup, Input } from 'reactstrap';
 import Background from '../../assets/img/sky1.jpg';
 
 var styles = {
