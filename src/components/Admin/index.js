@@ -17,10 +17,12 @@ class AdminPage extends React.Component {
     this.props.firebase.users().on('value', snapshot => {
       // convert the userObj into array for easier display later
       const userObj = snapshot.val();
+      console.log(userObj)
       const userList = Object.keys(userObj).map(key => ({
         ...userObj[key],
         uid: key,
       }));
+      console.log(userList)
       this.setState({
         users: userList,
         loading: false,
@@ -43,7 +45,6 @@ class AdminPage extends React.Component {
         {loading && <div> Loading ... </div>}
 
         <UserList users={users} />
-
       </div>
     );
   }

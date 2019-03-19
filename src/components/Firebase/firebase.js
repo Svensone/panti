@@ -6,7 +6,7 @@ import 'firebase/database';
 // optional with firebase Project panti-prod - config in new env.production - see tutorial)
 
 const config = {
-  apiKey: 
+  apiKe
 };
 
 class Firebase {

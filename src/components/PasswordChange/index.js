@@ -50,6 +50,7 @@ class PasswordChangeForm extends Component {
 
     const isInvalid =
       passwordOne !== passwordTwo || passwordOne === '';
+
     return (
       <div>
         <Form onSubmit={this.onSubmit} style={{ marginLeft: '2rem' }}>
@@ -74,7 +75,7 @@ class PasswordChangeForm extends Component {
           </FormGroup>
 
           <Button type="submit" disabled={isInvalid}>
-            Reset My Password{' '}
+            Reset My Password
           </Button>
 
           {error && <p>{error.message}</p>}
