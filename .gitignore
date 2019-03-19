@@ -22,4 +22,5 @@ yarn-debug.log*
 yarn-error.log*
 
 #personal info
-.personalInfo
+.process-how-to.md
+.plan.md
