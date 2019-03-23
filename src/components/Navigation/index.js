@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink as NavLinkRR } from 'react-router-dom';
+import { Link, Events, animateScroll as scroll, scrollSpy } from "react-scroll";
 
 // context & components
 import * as ROUTES from '../../constants/routes';
@@ -7,15 +8,9 @@ import SignOutButton from '../SignOut';
 import { AuthUserContext } from '../Session';
 
 // styling with reactstrap
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-} from 'reactstrap';
+import { NavLink, NavItem, Button } from 'reactstrap';
+import './style.css';
+
 
 const Navigation = () => (
   <div>
@@ -30,58 +25,135 @@ const Navigation = () => (
 class NavigationAuth extends React.Component {
   constructor(props) {
     super(props);
-
-    this.toggleNavbar = this.toggleNavbar.bind(this);
-    this.state = {
-      collapsed: true,
-    };
+    this.state = { mnuShow: false };
+    this.closeMnu = this.closeMnu.bind(this);
   }
 
-  toggleNavbar() {
-    this.setState({
-      collapsed: !this.state.collapsed,
+  componentDidMount() {
+    Events.scrollEvent.register("begin", () => {
+      console.log("begin", arguments);
+      this.closeMnu();
     });
+
+    Events.scrollEvent.register("end", function() {
+      console.log("end", arguments);
+    });
+    scrollSpy.update();
   }
+
+  componentWillUnmount() {
+    Events.scrollEvent.remove("begin");
+    Events.scrollEvent.remove("end");
+  }
+
+  toggleShow() {
+    this.setState({ mnuShow: !this.state.mnuShow });
+  }
+
+  closeMnu() {
+    if (this.state.mnuShow) {
+      this.setState({ mnuShow: false });
+    }
+  }
+
+  scrollToTop() {
+    scroll.scrollToTop();
+  }
+
   render() {
+    const show = this.state.mnuShow ? "show" : "";
     return (
-      <div>
-        <Navbar color="faded" light>
-          <NavbarBrand href="/" className="mr-auto">
-            Alas Kasih
-          </NavbarBrand>
-          <NavbarToggler
-            onClick={this.toggleNavbar}
-            className="mr-2"
-          />
-          <Collapse isOpen={!this.state.collapsed} navbar>
-            <Nav navbar>
-              <NavItem>
-                <NavLink tag={NavLinkRR} to={ROUTES.LANDING}>
-                  Landing Page
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={NavLinkRR} to={ROUTES.HOME}>
+      <nav
+        className={`navbar navbar-expand-lg navbar-dark fixed-top ${
+          this.props.navBarShrink
+        }`}
+        id="mainNav"
+      >
+        <div className="container">
+          <a
+            onClick={this.scrollToTop.bind(this)}
+            className="navbar-brand js-scroll-trigger"
+            href="#page-top"
+          >
+            Panti
+          </a>
+          <button
+            onClick={this.toggleShow.bind(this)}
+            className="navbar-toggler navbar-toggler-right"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarResponsive"
+            aria-controls="navbarResponsive"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            Menu
+            <i className="fas fa-bars" />
+          </button>
+          <div
+            className={`collapse navbar-collapse ${show}`}
+            id="navbarResponsive"
+          >
+            <ul className="navbar-nav text-uppercase ml-auto">
+            <li className="nav-item">
+                <NavLink
+                  activeClass="active"
+                  className="nav-link js-scroll-trigger"
+                  tag={NavLinkRR}
+                  to={ROUTES.HOME}
+                  spy={true}
+                  smooth="easeInOutQuart"
+                  duration={1000}
+                >
                   Home
                 </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={NavLinkRR} to={ROUTES.ACCOUNT}>
-                  Account
-                </NavLink>
-                </NavItem>
-                <NavItem>
-                <NavLink tag={NavLinkRR} to={ROUTES.ADMIN}>
+              </li>
+              <li className="nav-item">
+                <NavLink
+                  activeClass="active"
+                  className="nav-link js-scroll-trigger"
+                  tag={NavLinkRR}
+                  to={ROUTES.ADMIN}
+                  spy={true}
+                  smooth="easeInOutQuart"
+                  duration={1000}
+                >
                   Admin
                 </NavLink>
-              </NavItem>
+              </li>
+              <li className="nav-item">
+                <NavLink
+                  activeClass="active"
+                  className="nav-link js-scroll-trigger"
+                  tag={NavLinkRR}
+                  to={ROUTES.ACCOUNT}
+                  spy={true}
+                  smooth="easeInOutQuart"
+                  duration={1000}
+                >
+                  Account
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink
+                  activeClass="active"
+                  className="nav-link js-scroll-trigger"
+                  tag={NavLinkRR}
+                  to={ROUTES.LANDING}
+                  spy={true}
+                  smooth="easeInOutQuart"
+                  duration={1000}
+                >
+                  Landing
+                </NavLink>
+              </li>
               <NavItem>
                 <SignOutButton />
               </NavItem>
-            </Nav>
-          </Collapse>
-        </Navbar>
-      </div>
+            </ul>
+          </div>
+        </div>
+      </nav>
     );
   }
 }
@@ -89,45 +161,129 @@ class NavigationAuth extends React.Component {
 class NavigationNonAuth extends React.Component {
   constructor(props) {
     super(props);
-
-    this.toggleNavbar = this.toggleNavbar.bind(this);
-    this.state = {
-      collapsed: true,
-    };
+    this.state = { mnuShow: false };
+    this.closeMnu = this.closeMnu.bind(this);
   }
 
-  toggleNavbar() {
-    this.setState({
-      collapsed: !this.state.collapsed,
+  componentDidMount() {
+    Events.scrollEvent.register("begin", () => {
+      console.log("begin", arguments);
+      this.closeMnu();
     });
+
+    Events.scrollEvent.register("end", function() {
+      console.log("end", arguments);
+    });
+    scrollSpy.update();
   }
+
+  componentWillUnmount() {
+    Events.scrollEvent.remove("begin");
+    Events.scrollEvent.remove("end");
+  }
+
+  toggleShow() {
+    this.setState({ mnuShow: !this.state.mnuShow });
+  }
+
+  closeMnu() {
+    if (this.state.mnuShow) {
+      this.setState({ mnuShow: false });
+    }
+  }
+
+  scrollToTop() {
+    scroll.scrollToTop();
+  }
+
   render() {
+    const show = this.state.mnuShow ? "show" : "";
     return (
-      <div>
-        <Navbar color="faded" light>
-          <NavbarBrand href="/" className="mr-auto">
-            Alas Kasih
-          </NavbarBrand>
-          <NavbarToggler
-            onClick={this.toggleNavbar}
-            className="mr-2"
-          />
-          <Collapse isOpen={!this.state.collapsed} navbar>
-            <Nav navbar>
-              <NavItem>
-                <NavLink tag={NavLinkRR} to={ROUTES.SIGN_IN}>
-                  Sign in
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={NavLinkRR} to={ROUTES.LANDING}>
-                  Landing Page
-                </NavLink>
-              </NavItem>
-            </Nav>
-          </Collapse>
-        </Navbar>
-      </div>
+      <nav
+        className={`navbar navbar-expand-lg navbar-dark fixed-top ${
+          this.props.navBarShrink
+        }`}
+        id="mainNav"
+      >
+        <div className="container">
+          <a
+            onClick={this.scrollToTop.bind(this)}
+            className="navbar-brand js-scroll-trigger"
+            href="#page-top"
+          >
+            Panti
+          </a>
+          <button
+            onClick={this.toggleShow.bind(this)}
+            className="navbar-toggler navbar-toggler-right"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarResponsive"
+            aria-controls="navbarResponsive"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            Menu
+            <i className="fas fa-bars" />
+          </button>
+          <div
+            className={`collapse navbar-collapse ${show}`}
+            id="navbarResponsive"
+          >
+            <ul className="navbar-nav text-uppercase ml-auto">
+            <li className="nav-item">
+                <Link
+                  activeClass="active"
+                  className="nav-link js-scroll-trigger"
+                  to="signin"
+                  spy={true}
+                  smooth="easeInOutQuart"
+                  duration={1000}
+                >
+                  Sign-In
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  activeClass="active"
+                  className="nav-link js-scroll-trigger"
+                  to="timeline"
+                  spy={true}
+                  smooth="easeInOutQuart"
+                  duration={1000}
+                >
+                  Timeline
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  activeClass="active"
+                  className="nav-link js-scroll-trigger"
+                  to="team"
+                  spy={true}
+                  smooth="easeInOutQuart"
+                  duration={1000}
+                >
+                  Team
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  activeClass="active"
+                  className="nav-link js-scroll-trigger"
+                  to="contact"
+                  spy={true}
+                  smooth="easeInOutQuart"
+                  duration={1000}
+                >
+                  Contact
+                </Link>
+              </li>
+              
+            </ul>
+          </div>
+        </div>
+      </nav>
     );
   }
 }

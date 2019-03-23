@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 // style 
-
 import './style.css';
 
 // importing the components
@@ -14,6 +13,7 @@ import PasswordForgetPage from '../PasswordForget';
 import HomePage from '../Home';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
+import { Footer } from '../BasicComponents/Footer';
 
 // importing Routes
 import * as ROUTES from '../../constants/routes';
@@ -36,6 +36,7 @@ const App = () => (
       <Route path={ROUTES.HOME} component={HomePage} />
       <Route path={ROUTES.ACCOUNT} component={AccountPage} />
       <Route path={ROUTES.ADMIN} component={AdminPage} />
+      <Footer />
     </div>
   </Router>
 );

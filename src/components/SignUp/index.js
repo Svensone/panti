@@ -26,11 +26,10 @@ class SignUpFormBase extends Component {
   constructor(props) {
     super(props);
     this.state = { ...INITIAL_STATE };
-    
   }
 
   // remember to put in username later in const destructuring
-  onSubmit = event => {
+  onSubmit1 = event => {
     const { username, email, passwordOne } = this.state;
 
     this.props.firebase
@@ -69,14 +68,14 @@ class SignUpFormBase extends Component {
       error,
     } = this.state;
 
-    const isInvalid =
+    const isInvalid1 =
       passwordOne !== passwordTwo ||
       passwordOne === '' ||
       email === '' ||
       username === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
+      <form onSubmit={this.onSubmit1}>
         <input
           name="username"
           value={username}
@@ -105,7 +104,7 @@ class SignUpFormBase extends Component {
           type="password"
           placeholder="Confirm Password"
         />
-        <button disabled={isInvalid} type="submit">
+        <button disabled={isInvalid1} type="submit">
           Sign Up
         </button>
 

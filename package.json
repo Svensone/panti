@@ -5,10 +5,12 @@
   "dependencies": {
     "bootstrap": "^4.3.1",
     "firebase": "^5.9.0",
+    "font-awesome": "^4.7.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-router-dom": "^4.4.0",
     "react-scripts": "2.1.1",
+    "react-scroll": "^1.7.11",
     "reactstrap": "^7.1.0",
     "recompose": "^0.30.0"
   },
