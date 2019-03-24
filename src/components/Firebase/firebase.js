@@ -4,10 +4,13 @@ import 'firebase/database';
 
 // Initialize Firebase ( using env. file in root - not sure if working, check gitignore)
 // optional with firebase Project panti-prod - config in new env.production - see tutorial)
+import CONFIG from './config_keys';
 
-const config = {
-  
+
+
+const config = {...CONFIG
 };
+
 
 
 class Firebase {
@@ -27,7 +30,6 @@ class Firebase {
     this.auth.signInWithEmailAndPassword(email, password);
 
   doSignOut = () => this.auth.signOut();
-
 
   doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
 

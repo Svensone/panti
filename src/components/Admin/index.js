@@ -39,7 +39,7 @@ class AdminPage extends React.Component {
   render(){
     const { users, loading } = this.state;
     return (
-      <div>
+      <div style={{ marginTop: "5rem"}}>
         <h1>Admin</h1>
 
         {loading && <div> Loading ... </div>}

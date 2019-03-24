@@ -191,7 +191,6 @@ class SignInFormBase extends Component {
               <button disabled={isInvalid} type="submit">
                 Sign In
               </button>
-
               {error && <p>{error.message}</p>}
             </form>
           </div>
@@ -199,6 +198,8 @@ class SignInFormBase extends Component {
             <div className="overlay">
               <div className="overlay-panel overlay-left">
                 <h1>Welcome Back!</h1>
+                  console.log(`${process.env.REACT_APP_API_KEY}`);
+
                 <p>
                   To keep connected with us please login with your
                   personal info
