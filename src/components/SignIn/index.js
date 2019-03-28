@@ -194,12 +194,11 @@ class SignInFormBase extends Component {
               {error && <p>{error.message}</p>}
             </form>
           </div>
+          
           <div className="overlay-container">
             <div className="overlay">
               <div className="overlay-panel overlay-left">
                 <h1>Welcome Back!</h1>
-                  console.log(`${process.env.REACT_APP_API_KEY}`);
-
                 <p>
                   To keep connected with us please login with your
                   personal info

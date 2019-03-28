@@ -6,12 +6,8 @@ import 'firebase/database';
 // optional with firebase Project panti-prod - config in new env.production - see tutorial)
 import CONFIG from './config_keys';
 
-
-
 const config = {...CONFIG
 };
-
-
 
 class Firebase {
   constructor() {
@@ -40,8 +36,9 @@ class Firebase {
 
   user = uid => this.db.ref(`users/${uid}`);
   users = () => this.db.ref('users');
+  message = uid => this.db.ref(`message/${uid}`);
+  messages = () => this.db.ref('messages');
 
-  
 }
 
 export default Firebase;

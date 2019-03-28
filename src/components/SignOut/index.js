@@ -1,15 +1,21 @@
 import React from 'react';
 import { withFirebase } from '../Firebase';
-import { Button } from 'reactstrap';
+
+import './style.css';
 
 const SignOutButton = ({ firebase }) => (
-  <Button 
-    outline 
-    color='primary' 
-    type="button" 
-    onClick={firebase.doSignOut}>
+  <button
+    activeClass="active"
+    className="nav-link js-scroll-trigger"
+    spy={true}
+    smooth="easeInOutQuart"
+    duration={1000}
+    type="button"
+    onClick={firebase.doSignOut}
+    style={{ backgroundColor: '#212529', borderRadius: '10px' }}
+  >
     Sign Out
-    </Button>
+  </button>
 );
 
 export default withFirebase(SignOutButton);

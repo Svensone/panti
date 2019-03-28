@@ -3,20 +3,21 @@ import React from 'react';
 import { withAuthorization } from '../Session';
 
 // styles
-import Background from './../../assets/img/bg-home.jpg';
-var style = {
-  marginTop: "5rem",
-  marginLeft: "10rem",
-  width: "50%",
-  height: "300px",
-  background: `url(${Background})`, 
-}
+import './style.css';
+
+import { Header } from '../BasicComponents/Header';
+import { Timeline } from '../BasicComponents/Timeline';
+import ContactForm from '../BasicComponents/Contact';
+import { Team } from '../BasicComponents/Team';
+
+
 
 const Home = () => (
   <div>
-    <h1>Home</h1>
-    <p> Only accessible for signed in Users </p>
-  <div style={ style } ></div>
+    <Header />
+    <Timeline />
+    <Team />
+    <ContactForm />
 
   </div>
 );

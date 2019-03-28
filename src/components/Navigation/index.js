@@ -104,6 +104,7 @@ class NavigationAuth extends React.Component {
                   spy={true}
                   smooth="easeInOutQuart"
                   duration={1000}
+                  onClick={this.closeMnu}
                 >
                   Home
                 </NavLink>
@@ -117,6 +118,7 @@ class NavigationAuth extends React.Component {
                   spy={true}
                   smooth="easeInOutQuart"
                   duration={1000}
+                  onClick={this.closeMnu}
                 >
                   Admin
                 </NavLink>
@@ -130,6 +132,7 @@ class NavigationAuth extends React.Component {
                   spy={true}
                   smooth="easeInOutQuart"
                   duration={1000}
+                  onClick={this.closeMnu}
                 >
                   Account
                 </NavLink>
@@ -139,12 +142,13 @@ class NavigationAuth extends React.Component {
                   activeClass="active"
                   className="nav-link js-scroll-trigger"
                   tag={NavLinkRR}
-                  to={ROUTES.LANDING}
+                  to={ROUTES.MYKID}
                   spy={true}
                   smooth="easeInOutQuart"
                   duration={1000}
+                  onClick={this.closeMnu}
                 >
-                  Landing
+                  My Kid
                 </NavLink>
               </li>
               <NavItem>

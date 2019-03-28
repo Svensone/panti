@@ -13,12 +13,13 @@ import PasswordForgetPage from '../PasswordForget';
 import HomePage from '../Home';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
+import MyKid from '../MyKid';
 import { Footer } from '../BasicComponents/Footer';
 
 // importing Routes
 import * as ROUTES from '../../constants/routes';
 
-// importing Context API
+// importing Context APIs
 import { withAuthentication } from '../Session';
 
 const App = () => (
@@ -36,6 +37,7 @@ const App = () => (
       <Route path={ROUTES.HOME} component={HomePage} />
       <Route path={ROUTES.ACCOUNT} component={AccountPage} />
       <Route path={ROUTES.ADMIN} component={AdminPage} />
+      <Route path={ROUTES.MYKID} component={MyKid} />
       <Footer />
     </div>
   </Router>
