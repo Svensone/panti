@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import { compose } from 'recompose'; // nesting of higher-order-functions become otherwise to verbose
 
 // style
 import './style.css';
 
-import { SignUpLink } from '../SignUp';
+import * as ROLES from '../../constants/roles';
 import * as ROUTES from '../../constants/routes';
 import { withFirebase } from '../Firebase';
 import { PasswordForgetLink } from '../PasswordForget';
@@ -23,6 +23,7 @@ const INITIAL_STATE = {
   password: '',
   passwordOne: '',
   passwordTwo: '',
+  isAdmin: false,
   error: null,
   panelSwitch: '',
 };
@@ -34,7 +35,9 @@ class SignInFormBase extends Component {
     this.state = { ...INITIAL_STATE };
   }
 
-  // Sign-In Submit - Authentication
+  // ------------ Sign-In Submit - Authentication -----
+
+  // ------ with Email ----------
   onSubmit = event => {
     const { email, password } = this.state;
     this.props.firebase
@@ -48,20 +51,77 @@ class SignInFormBase extends Component {
       });
     event.preventDefault();
   };
-  // Sign-Up ---- remember to put in username later in const destructuring
+
+  // ------ with Google ----------
+
+  onSubmitGoogle = event => {
+    this.props.firebase
+      .doSignInWithGoogle()
+      .then(socialUserAuth => {
+        // Create a user in realtime DB
+        return this.props.firebase.user(socialUserAuth.user.uid).set({
+          username: socialUserAuth.user.displayName,
+          email: socialUserAuth.user.email,
+          roles: [],
+        });
+      })
+      .then(() => {
+        this.setState({ error: null });
+        this.props.history.push(ROUTES.HOME);
+      })
+      .catch(error => {
+        this.setState({ error });
+      });
+    event.preventDefault();
+  };
+
+  // ------------ with FACEBOOK ---------
+  onSubmitFacebook = event => {
+    this.props.firebase
+      .doSignInWithFacebook()
+      .then(socialUserAuth => {
+        return this.props.firebase
+        .user(socialUserAuth.user.uid)
+        .set({
+          username: socialUserAuth.additionalUserInfo.profile.name,
+          email: socialUserAuth.additionalUserInfo.profile.email,
+          roles: [],
+        });
+      })
+      .then(() => {
+        this.setState({ error: null });
+        this.props.history.push(ROUTES.HOME);
+      })
+      .catch(error => {
+        this.setState({ error });
+      });
+    event.preventDefault();
+  };
+
+  // ----------------Sign-Up ----
+
+  // remember to put in username later in const destructuring
+
   onSubmit1 = event => {
-    const { username, email, passwordOne } = this.state;
+    const { username, email, passwordOne, isAdmin } = this.state;
+    const roles = [];
+
+    if (isAdmin) {
+      roles.push(ROLES.ADMIN);
+    }
 
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
         // create User in Firebse Realtime Db
-        this.props.firebase.user(authUser.user.uid).set({
+        return this.props.firebase
+        .user(authUser.user.uid)
+        .set({
           username,
           email,
+          roles,
         });
       })
-
       .then(() => {
         this.setState({ ...INITIAL_STATE });
         this.props.history.push(ROUTES.HOME);
@@ -74,6 +134,10 @@ class SignInFormBase extends Component {
   };
 
   onChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
+  onChangeCheckbox = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
@@ -92,6 +156,7 @@ class SignInFormBase extends Component {
       password,
       passwordOne,
       passwordTwo,
+      isAdmin,
       error,
     } = this.state;
 
@@ -111,18 +176,7 @@ class SignInFormBase extends Component {
           <div className="form-container sign-up-container">
             <form onSubmit={this.onSubmit1}>
               <h1>Create Account</h1>
-              <div className="social-container">
-                <a href="#" className="social">
-                  <i className="fab fa-facebook-f" />
-                </a>
-                <a href="#" className="social">
-                  <i className="fab fa-google-plus-g" />
-                </a>
-                <a href="#" className="social">
-                  <i className="fab fa-linkedin-in" />
-                </a>
-              </div>
-              <span>or use your email for registration</span>
+              
               <input
                 name="username"
                 value={username}
@@ -151,6 +205,16 @@ class SignInFormBase extends Component {
                 type="password"
                 placeholder="Confirm Password"
               />
+              <label htmlFor="">
+                {' '}
+                Admin :
+                <input
+                  type="checkbox"
+                  name="isAdmin"
+                  checked={isAdmin}
+                  onChange={this.onChangeCheckbox}
+                />
+              </label>
 
               <button disabled={isInvalid1} type="submit">
                 Sign Up
@@ -162,16 +226,16 @@ class SignInFormBase extends Component {
             <form onSubmit={this.onSubmit}>
               <h1>Sign in</h1>
               <div className="social-container">
-                <a href="#" className="social">
+                <a onClick={this.onSubmitFacebook} className="social">
                   <i className="fab fa-facebook-f" />
                 </a>
-                <a href="#" className="social">
-                  <i className="fab fa-google-plus-g" />
+                <a className="social">
+                  <i
+                    className="fab fa-google-plus-g"
+                    onClick={this.onSubmitGoogle}
+                  />
                 </a>
-                <a href="#" className="social">
-                  <i className="fab fa-linkedin-in" />
-                </a>
-              </div>
+                </div>
               <span>or use your account</span>
               <input
                 name="email"
@@ -194,7 +258,7 @@ class SignInFormBase extends Component {
               {error && <p>{error.message}</p>}
             </form>
           </div>
-          
+
           <div className="overlay-container">
             <div className="overlay">
               <div className="overlay-panel overlay-left">

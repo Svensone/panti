@@ -1,3 +1,5 @@
+
+
 section.signin {
 	background: #f6f5f7;
 	display: flex;
@@ -34,16 +36,19 @@ section.signin span {
 }
 
 section.signin a {
-	color: #333;
+	color: #212529;
 	font-size: 14px;
 	text-decoration: none;
 	margin: 15px 0;
 }
+section-signin a:hover{
+	background-color: #fed136
+}
 
 section.signin button {
 	border-radius: 20px;
-	border: 1px solid #FF4B2B;
-	background-color: #FF4B2B;
+	border: 1px solid #fec503;;
+	background-color: #fec503;;
 	color: #FFFFFF;
 	font-size: 12px;
 	font-weight: bold;
@@ -53,6 +58,9 @@ section.signin button {
 	transition: transform 80ms ease-in;
 }
 
+section.signin button:hover {
+	background-color: #fed136
+}
 section.signin  button:active {
 	transform: scale(0.95);
 }
@@ -64,6 +72,12 @@ section.signin  button:focus {
 section.signin button.ghost {
 	background-color: transparent;
 	border-color: #FFFFFF;
+}
+section.signin button.ghost:hover {
+	background-color: #fff;
+	border-color: #fec503;
+	color: #fed136
+
 }
 
 section.signin form {
@@ -155,10 +169,11 @@ section.signin .container.right-panel-active .overlay-container{
 	transform: translateX(-100%);
 }
 
+
 section.signin .overlay {
-	background: #FF416C;
-	background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
-	background: linear-gradient(to right, #FF4B2B, #FF416C);
+	background: #fed136;
+	background: -webkit-linear-gradient(to right, #fec503, #fed136);
+	background: linear-gradient(to right, #fec503, #fed136);
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: 0 0;
@@ -220,4 +235,10 @@ section.signin .social-container a {
 	margin: 0 5px;
 	height: 40px;
 	width: 40px;
+}
+section.signin .social-container a:hover {
+	border: 1px solid #fec503;
+	background-color: #fed136;
+	color: #fff;
+	
 }

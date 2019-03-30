@@ -10,8 +10,6 @@ import { Timeline } from '../BasicComponents/Timeline';
 import ContactForm from '../BasicComponents/Contact';
 import { Team } from '../BasicComponents/Team';
 
-
-
 const Home = () => (
   <div>
     <Header />

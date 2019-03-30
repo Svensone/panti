@@ -5,6 +5,7 @@ import { compose } from 'recompose'; // nesting of higher-order-functions become
 
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
+import * as ROLES from '../../constants/roles';
 
 const SignUpPage = () => (
   <div>
@@ -18,9 +19,9 @@ const INITIAL_STATE = {
   email: '',
   passwordOne: '',
   passwordTwo: '',
+  isAdmin: false,
   error: null,
 };
-
 
 class SignUpFormBase extends Component {
   constructor(props) {
@@ -28,31 +29,40 @@ class SignUpFormBase extends Component {
     this.state = { ...INITIAL_STATE };
   }
 
+  // ----------- Sign Up with Email 
   // remember to put in username later in const destructuring
-  onSubmit1 = event => {
-    const { username, email, passwordOne } = this.state;
 
+  onSubmit1 = event => {
+    const { username, email, passwordOne, isAdmin } = this.state;
+    const roles = [];
+
+    if (isAdmin) {
+      roles.push(ROLES.ADMIN);
+    }
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
         // create User in Firebse Realtime Db
-        this.props.firebase
-          .user(authUser.user.uid)
-          .set({
-            username,
-            email,
-          });
+        return this.props.firebase.user(authUser.user.uid).set({
+          username,
+          email,
+          roles,
+        });
       })
-      
+
       .then(() => {
         this.setState({ ...INITIAL_STATE });
-        this.props.history.push(ROUTES.HOME)
+        this.props.history.push(ROUTES.HOME);
       })
       .catch(error => {
         this.setState({ error });
       });
 
     event.preventDefault();
+  };
+
+  onChangeCheckbox = event => {
+    this.setState({ [event.target.name]: event.target.value });
   };
 
   onChange = event => {
@@ -65,6 +75,7 @@ class SignUpFormBase extends Component {
       email,
       passwordOne,
       passwordTwo,
+      isAdmin,
       error,
     } = this.state;
 
@@ -104,6 +115,16 @@ class SignUpFormBase extends Component {
           type="password"
           placeholder="Confirm Password"
         />
+        <label>
+          Admin:
+          <input
+            type="checkbox"
+            name="isAdmin"
+            checked={isAdmin}
+            onClick={this.onChangeCheckbox}
+          />
+        </label>
+
         <button disabled={isInvalid1} type="submit">
           Sign Up
         </button>
@@ -112,7 +133,7 @@ class SignUpFormBase extends Component {
       </form>
     );
   }
-};
+}
 
 const SignUpLink = () => (
   <p>
@@ -123,7 +144,8 @@ const SignUpLink = () => (
 // using recompose - higer-order functions don't depend on each other, order doesn't matter
 const SignUpForm = compose(
   withRouter,
-  withFirebase,)(SignUpFormBase);
+  withFirebase,
+)(SignUpFormBase);
 
 export default SignUpPage;
 

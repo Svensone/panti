@@ -6,8 +6,7 @@ import 'firebase/database';
 // optional with firebase Project panti-prod - config in new env.production - see tutorial)
 import CONFIG from './config_keys';
 
-const config = {...CONFIG
-};
+const config = { ...CONFIG };
 
 class Firebase {
   constructor() {
@@ -15,6 +14,9 @@ class Firebase {
 
     this.auth = app.auth();
     this.db = app.database();
+
+    this.googleProvider = new app.auth.GoogleAuthProvider();
+    this.facebookProvider = new app.auth.FacebookAuthProvider();
   }
 
   // **** Auth API ***
@@ -27,10 +29,47 @@ class Firebase {
 
   doSignOut = () => this.auth.signOut();
 
+  doSignInWithGoogle = () => 
+  this.auth.signInWithPopup(this.googleProvider);
+
+  doSignInWithFacebook = () => {
+    this.auth.signInWithPopup(this.facebookProvider);
+  }
+  
   doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
 
   doPasswordUpdate = password =>
     this.auth.currentUser.updatePassword(password);
+
+
+    // *** Merge Auth and DB User API *** //
+
+  onAuthListener = (next, fallback) =>
+    this.auth.onAuthStateChanged(authUser => {
+      if (authUser) {
+        this.user(authUser.uid)
+          .once('value')
+          .then(snapshot => {
+            const dbUser = snapshot.val();
+
+            // default empty roles
+            if(!dbUser.roles){
+              dbUser.roles = [];
+            }
+
+            // merge authUser with dbUser
+            authUser = {
+              uid: authUser.uid,
+              email: authUser.email,
+              ...dbUser,
+            };
+
+            next(authUser);
+          });
+      } else {
+        fallback();
+      }
+    });
 
   //* Database API  */
 
@@ -38,7 +77,6 @@ class Firebase {
   users = () => this.db.ref('users');
   message = uid => this.db.ref(`message/${uid}`);
   messages = () => this.db.ref('messages');
-
 }
 
 export default Firebase;

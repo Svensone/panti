@@ -6,9 +6,10 @@ import { Link, Events, animateScroll as scroll, scrollSpy } from "react-scroll";
 import * as ROUTES from '../../constants/routes';
 import SignOutButton from '../SignOut';
 import { AuthUserContext } from '../Session';
+import * as ROLES from '../../constants/roles';
 
 // styling with reactstrap
-import { NavLink, NavItem, Button } from 'reactstrap';
+import { NavLink, NavItem } from 'reactstrap';
 import './style.css';
 
 
@@ -16,7 +17,7 @@ const Navigation = () => (
   <div>
     <AuthUserContext.Consumer>
       {authUser =>
-        authUser ? <NavigationAuth /> : <NavigationNonAuth />
+        authUser ? (<NavigationAuth authUser={ authUser } />) : <NavigationNonAuth />
       }
     </AuthUserContext.Consumer>
   </div>
@@ -62,6 +63,8 @@ class NavigationAuth extends React.Component {
 
   render() {
     const show = this.state.mnuShow ? "show" : "";
+    const { authUser } = this.props;
+    
     return (
       <nav
         className={`navbar navbar-expand-lg navbar-dark fixed-top ${
@@ -109,7 +112,9 @@ class NavigationAuth extends React.Component {
                   Home
                 </NavLink>
               </li>
-              <li className="nav-item">
+
+              { authUser.roles.includes(ROLES.ADMIN) && (
+                <li className="nav-item">
                 <NavLink
                   activeClass="active"
                   className="nav-link js-scroll-trigger"
@@ -123,6 +128,9 @@ class NavigationAuth extends React.Component {
                   Admin
                 </NavLink>
               </li>
+              )}
+              
+                            
               <li className="nav-item">
                 <NavLink
                   activeClass="active"
