@@ -12,7 +12,7 @@ const SignOutButton = ({ firebase }) => (
     duration={1000}
     type="button"
     onClick={firebase.doSignOut}
-    style={{ backgroundColor: '#212529', borderRadius: '10px' }}
+    style={{ backgroundColor: '#212529'}}
   >
     Sign Out
   </button>
