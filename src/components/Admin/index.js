@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 import { compose } from 'recompose';
 
@@ -11,12 +11,17 @@ import * as ROUTES from '../../constants/routes';
 import './style.css';
 
 const AdminPage = () => (
-  <div className="admin-main" >
+  <div className="section admin-main">
     <h1> Admin </h1>
     <p> The Admin Page is visible to everyone </p>
 
     <Switch>
-      <Route exact path={ROUTES.ADMIN} component={UserList} className="userlist"  />
+      <Route
+        exact
+        path={ROUTES.ADMIN}
+        component={UserList}
+        className="userlist"
+      />
       <Route
         exact
         path={ROUTES.ADMIN_DETAILS}
@@ -63,7 +68,7 @@ class UserListBase extends React.Component {
   render() {
     const { users, loading } = this.state;
     return (
-      <div >
+      <div>
         <h2>Users</h2>
         {loading && <div> Loading ... </div>}
 
@@ -80,7 +85,12 @@ class UserListBase extends React.Component {
                 <strong> Email: </strong> {user.email}
               </span>
               <span>
-                <Link to={`${ROUTES.ADMIN}/${user.uid}`}>
+                <Link className="btn-primary"
+                  to={{
+                    pathname: `${ROUTES.ADMIN}/${user.uid}`,
+                    state: { user },
+                  }}
+                >
                   Details
                 </Link>
               </span>
@@ -92,16 +102,74 @@ class UserListBase extends React.Component {
   }
 }
 
-const UserDetail = ({ match }) => (
-  <div className="userdetail">
-    <h2> User ({match.params.id}) </h2>
-  </div>
-);
+class UserDetailBase extends Component {
+  constructor(props) {
+    super(props);
 
+    this.state = {
+      loading: false,
+      user: null,
+      ...props.location.state,
+    };
+  }
+
+  componentDidMount() {
+    if (this.state.user) {
+      return;
+    }
+
+    this.setState({ loading: true });
+
+    this.props.firebase
+      .user(this.props.match.params.id)
+      .on('value', snapshot => {
+        this.setState({
+          loading: false,
+          user: snapshot.val(),
+        });
+      });
+  }
+
+  componentWillUnmount() {
+    this.props.firebase.user(this.props.match.params.id).off();
+  }
+
+  onSendPasswordResetEmail = () => {
+    this.props.firebase.doPasswordReset(this.state.user.email)
+  }
+  render() {
+    const { user, loading } = this.state;
+
+    return (
+      <div className="userdetail">
+        <h2> User ({this.props.match.params.id}) </h2>
+        {loading && <div> Loading ... </div>}
+        {user && (
+          <div className="container">
+            <div>
+              <strong> ID: </strong> {user.uid}
+            </div>
+            <div>
+              <strong> Username: </strong> {user.username}
+            </div>
+            <div>
+              <strong> Email: </strong> {user.email}
+            </div>
+            <hr />
+            <button className="btn btn-primary" type="button" onClick={this.onSendPasswordResetEmail}  > Resend Passwort Reset </button>
+            <hr />
+            <Link className="btn btn-primary" to={ROUTES.ADMIN}> Back </Link>
+          </div>
+        )}
+      </div>
+    );
+  }
+}
 
 const condition = authUser =>
   authUser && authUser.roles.includes(ROLES.ADMIN);
 
 const UserList = withFirebase(UserListBase);
+const UserDetail = withFirebase(UserDetailBase);
 
 export default compose(withAuthorization(condition))(AdminPage);

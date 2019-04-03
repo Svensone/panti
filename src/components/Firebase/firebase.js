@@ -73,10 +73,19 @@ class Firebase {
 
   //* Database API  */
 
+  // *** User API 
   user = uid => this.db.ref(`users/${uid}`);
   users = () => this.db.ref('users');
+
+  // *** Contact Form API
+
   message = uid => this.db.ref(`message/${uid}`);
   messages = () => this.db.ref('messages');
+
+  // *** Chat API 
+
+  text = uid => this.db.ref(`texts/${uid}`)
+  texts = () => this.db.ref('texts')
 }
 
 export default Firebase;
