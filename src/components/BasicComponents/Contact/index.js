@@ -26,8 +26,7 @@ class Contact extends Component {
   };
 
   onSubmit = event => {
-    const { name, email, phone, message, error } = this.state;
-
+    const { name, email, phone, message } = this.state;
     this.props.firebase
       .add({
         name,
@@ -41,7 +40,8 @@ class Contact extends Component {
       .catch(function(error) {
         console.error('Error writing document: ', error);
       });
-      this.setState({...INITIAL_STATE})
+
+    this.setState({...INITIAL_STATE})
     event.preventDefault();
   };
 

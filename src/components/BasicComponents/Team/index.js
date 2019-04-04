@@ -24,17 +24,17 @@ export const Team = () => {
             <p className="text-muted">Lead Designer</p>
             <ul className="list-inline social-buttons">
               <li className="list-inline-item">
-                <a href="#">
+                <a>
                   <i className="fab fa-twitter"></i>
                 </a>
               </li>
               <li className="list-inline-item">
-                <a href="#">
+                <a >
                   <i className="fab fa-facebook-f"></i>
                 </a>
               </li>
               <li className="list-inline-item">
-                <a href="#">
+                <a >
                   <i className="fab fa-linkedin-in"></i>
                 </a>
               </li>

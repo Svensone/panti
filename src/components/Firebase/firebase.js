@@ -79,8 +79,8 @@ class Firebase {
 
   // *** Contact Form API
 
-  message = uid => this.db.ref(`message/${uid}`);
-  messages = () => this.db.ref('messages');
+  contactMessage = uid => this.db.ref(`contactMessages/${uid}`);
+  contactMessages = () => this.db.ref('contactMessages');
 
   // *** Chat API 
 
