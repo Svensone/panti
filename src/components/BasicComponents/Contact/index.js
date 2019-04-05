@@ -28,11 +28,13 @@ class Contact extends Component {
   onSubmit = event => {
     const { name, email, phone, message } = this.state;
     this.props.firebase
-      .add({
+      .contactMessages()
+      .push({
         name,
         email,
         phone,
         message,
+        createdAt: this.props.firebase.serverValue.TIMESTAMP,
       })
       .then(function() {
         console.log('Document successfully written!');
@@ -41,7 +43,7 @@ class Contact extends Component {
         console.error('Error writing document: ', error);
       });
 
-    this.setState({...INITIAL_STATE})
+    this.setState({ ...INITIAL_STATE });
     event.preventDefault();
   };
 
