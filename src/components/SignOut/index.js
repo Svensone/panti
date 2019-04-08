@@ -5,16 +5,15 @@ import './style.css';
 
 const SignOutButton = ({ firebase }) => (
   <button
-    activeClass="active"
+    // activeClass="active"
     className="nav-link js-scroll-trigger"
     spy={true}
     smooth="easeInOutQuart"
     duration={1000}
     type="button"
     onClick={firebase.doSignOut}
-    style={{ backgroundColor: '#212529'}}
   >
-    Sign Out
+    SIGN OUT
   </button>
 );
 

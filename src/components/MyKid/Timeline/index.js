@@ -9,7 +9,7 @@ import pic4 from './img/4.jpg';
 
 export const Timeline = props => {
   return (
-    <section className="features" id="features">
+    <section className="timeline-main" id="timeline-main">
       <div className="container">
         <div className="row">
           <div className="col-lg-12 text-center">

@@ -78,7 +78,7 @@ class NavigationAuth extends React.Component {
             className="navbar-brand js-scroll-trigger"
             href="#page-top"
           >
-            Panti
+            Panti Alas Kasih
           </a>
           <button
             onClick={this.toggleShow.bind(this)}
