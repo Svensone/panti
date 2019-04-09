@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { compose } from 'recompose';
+
+
 import { withFirebase } from '../Firebase';
 import { withAuthorization, AuthUserContext } from '../Session';
 
@@ -16,13 +18,15 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: [],
+      users: null,
     };
   }
 
   componentDidMount() {
     this.props.firebase.users().on('value', snapshot => {
-      this.setState({ users: snapshot.val() });
+      this.setState({
+        users: snapshot.val()
+      });
     });
   }
 
@@ -66,11 +70,12 @@ class MessagesBase extends Component {
       .limitToLast(this.state.limit)
       .on('value', snapshot => {
         const messageObject = snapshot.val();
+
         if (messageObject) {
           const messageList = Object.keys(messageObject).map(
-            message => ({
-              ...messageObject[message],
-              uid: message,
+            key => ({
+              ...messageObject[key],
+              uid: key,
             }),
           );
           this.setState({
